@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botões de Chat e Menu no Cabeçalho</title>
+    <style>
+              body {
+                  margin: 0;
+                  font-family: 'Arial', sans-serif;
+                  background-color: #1c1c1c; /* Fundo do site em cinza escuro */
+                  color: #fff; /* Cor do texto em branco */
+                  display: flex;
+                  flex-direction: column;
+                  min-height: 100vh;
+              }
+      
+              header {
+                  background-color: #333333; /* Cor do cabeçalho em cinza escuro */
+                  width: 80%; /* Largura do cabeçalho (ajustável) */
+                  margin: 0 auto; /* Centraliza o cabeçalho horizontalmente */
+                  border-radius: 15px; /* Arredondamento das bordas do cabeçalho */
+                  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra opcional */
+                  display: flex; /* Alinhamento flexível para o conteúdo do cabeçalho */
+                  align-items: center; /* Centraliza verticalmente */
+                  justify-content: space-between; /* Espaça os itens do cabeçalho */
+                  padding: 10px; /* Espaçamento interno do cabeçalho */
+              }
+      
+              .logo-button {
+                  background: none; /* Remove o fundo do botão */
+                  border: none; /* Remove a borda do botão */
+                  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+              }
+      
+              .logo-button img {
+                  max-height: 60px; /* Ajusta a altura da logo */
+                  width: auto; /* Mantém a proporção da imagem */
+                  border-radius: 10px; /* Bordas arredondadas */
+              }
+      
+              .header-buttons {
+                  display: flex; /* Coloca os botões lado a lado */
+                  gap: 15px; /* Espaçamento entre os botões */
+              }
+      
+              .header-buttons a {
+    display: flex; /* Usar flexbox para o botão */
+    align-items: center; /* Alinha a imagem e texto */
+    text-decoration: none; /* Remove o sublinhado */
+    color: white; /* Cor do texto */
+    padding: 15px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    background-color: #444; /* Cor de fundo do botão */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+      
+.header-buttons a:hover {
+    background-color: #555; /* Cor ao passar o mouse */
+}
+
+      
+              .header-buttons img {
+                  width: 50px; /* Largura da imagem do botão */
+                  height: 50px; /* Altura da imagem do botão */
+                  margin-right: 5px; /* Espaçamento à direita da imagem */
+              }
+      
+              /* Estilo para a janela modal */
+              .modal {
+                  display: none; /* Oculta a modal por padrão */
+                  position: fixed; /* Fica sobreposta à página */
+                  z-index: 1; /* Fica na frente dos outros elementos */
+                  left: 0;
+                  top: 0;
+                  width: 100%; /* Largura total da tela */
+                  height: 100%; /* Altura total da tela */
+                  background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro com opacidade */
+                  color: yellow; /* Cor do texto na modal */
+                  display: flex; /* Usar flexbox para centralizar conteúdo */
+                  justify-content: center; /* Centraliza o conteúdo */
+                  align-items: center; /* Alinha verticalmente ao centro */
+              }
+      
+              .modal-content {
+                  background-color: #444; /* Cor de fundo da modal */
+                  padding: 20px; /* Espaçamento interno da modal */
+                  border-radius: 10px; /* Bordas arredondadas da modal */
+                  width: 80%; /* Largura da modal */
+                  max-width: 500px; /* Largura máxima da modal */
+                  color: white; /* Cor do texto na modal */
+              }
+      
+                .close {
+                    color: white; /* Cor do botão de fechar */
+                    float: right; /* Coloca o botão de fechar à direita */
+                    font-size: 28px; /* Tamanho da fonte do botão de fechar */
+                    font-weight: bold; /* Negrito */
+                    cursor: pointer; /* Muda o cursor ao passar o mouse */
+                }
+      
+              /* Estilos do painel da sanfona */
+              .accordion {
+                  background-color: #d4af37; /* Amarelo queimado */
+                  color: black; /* Cor do texto */
+                  cursor: pointer; /* Cursor pointer */
+                  text-align: center; /* Centraliza o texto */
+                  padding: 15px; /* Preenchimento */
+                  width: 100%; /* Largura total */
+                  border: none; /* Sem borda */
+                  border-radius: 5px; /* Bordas arredondadas */
+                  text-align: center; /* Texto à esquerda */
+                  outline: none; /* Sem contorno */
+                  font-size: 15px; /* Tamanho da fonte */
+                  transition: background-color 0.3s; /* Transição suave para a cor */
+                 }
+      
+              .accordion:hover {
+                  background-color: #c59a2f; /* Amarelo queimado mais escuro ao passar o mouse */
+                 }
+      
+              .panel {
+                  padding: 0 10px; /* Espaçamento interno da seção expandidas */
+                  background-color: #d4af37; /* Amarelo queimado */
+                  display: none; /* Oculta as seções por padrão */
+                  overflow: hidden; /* Oculta o conteúdo que ultrapassa */
+                  background-color: #444; /* Cor de fundo da seção expandida */
+                  border-radius: 5px; /* Bordas arredondadas */
+                  text-align: center; /* Centraliza o texto */
+                  border-radius: 5px; /* Bordas arredondadas */
+                  transition: max-height 0.3s ease-out; /* Animação suave */
+                  max-height: 0; /* Altura máxima inicial */
+              }
+      
+      .panel a {
+          display: block; /* Exibe os links como blocos */
+          background-color: #d4af37; /* Amarelo queimado */
+          color: black; /* Cor do texto dos links */
+          text-decoration: none; /* Remove sublinhado dos links */
+          padding: 10px; /* Espaçamento interno */
+          margin: 5px auto; /* Centraliza os links e define o espaçamento entre eles */
+          border-radius: 5px; /* Bordas arredondadas */
+          width: 50%; /* Define a largura dos links */
+          text-align: center; /* Centraliza o texto dentro dos links */
+      }
+      
+              .panel a:hover {
+          background-color: #c59a2f; /* Amarelo queimado mais escuro ao passar o mouse */
+              }
+              
+/* Lista de cards */
+.car-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas por padrão */
+    grid-auto-rows: auto; /* Ajusta a altura das linhas automaticamente */
+    gap: 20px; /* Espaçamento entre os cartões */
+    padding: 20px;
+    max-width: 900px; /* Ajusta a largura máxima para notebooks */
+    margin: 0 auto; /* Centraliza a grade */
+}
+
+.car-card {
+    background-color: #333333;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: 280px; /* Ajuste de largura para melhor exibição em notebooks */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para telas de desktop maiores */
+@media (min-width: 1200px) {
+    .car-list {
+        grid-template-columns: repeat(3, 1fr); /* 3 colunas em notebooks e desktops */
+        grid-auto-rows: 1fr; /* Mantém proporção das linhas */
+    }
+}
+
+/* Estilo para telas de celular */
+@media (max-width: 980px) {
+    .car-list {   
+        grid-template-columns: 1fr; /* Uma coluna em dispositivos móveis */
+    }
+}
+
+.car-image img {
+    width: 210px;
+    border-radius: 10px; /* Bordas arredondadas */
+    height: auto;
+    object-fit: cover;
+}
+
+.car-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.car-name {
+    align-self: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+}
+
+.car-details {
+    align-self: center;
+    font-size: 14px;
+    color: #ccc;
+    margin: 5px 0;
+}
+
+.car-price {
+    align-self: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #d32f2f;
+    margin: 10px 0;
+}
+
+.car-location {
+    align-self: center;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.buy-button {
+    align-self: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: #0056b3;
+}
+
+ 
+        
+
+    </style>
+</head>
+<body>
+
+<header>
+    <button class="logo-button" onclick="window.location.href='carimports.html'"> 
+        <img src="https://i.postimg.cc/zB6Y0HvR/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-122843-0000.png" alt="Logo da Loja" />
+    </button>
+    <div class="header-buttons">
+        <a href="chat.html"> <!-- Substitua pelo link da sua página de chat -->
+            <img src="https://i.postimg.cc/c1DGDjgN/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-125758-0000.png" alt="Chat">
+        </a>
+        <a href="#" id="menuButton"> <!-- ID para o botão de menu -->
+            <img src="https://i.postimg.cc/wB5SDb8Z/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-125906-0000.png" alt="Menu">
+        </a>
+    </div>
+</header>
+
+<!-- Janela Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Informações do Menu</h2>
+        
+        <button class="accordion">Serviços</button>
+        <div class="panel">
+            <a href="carros_usados.html">Carros Usados</a>
+            <a href="carimpots4.html">Carros de Luxo</a>
+            <a href="dados.html">Login</a>
+            <a href="chat.html">Suporte</a>
+            <a href="ajuda.html">Ajuda</a>
+        </div>
+        
+        <!-- Você pode adicionar mais seções de sanfona aqui -->
+    </div>
+</div>
+
+   <div class="car-list">
+    <!-- Card 1 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://fotos.socarrao.com.br/1028427/5740491/5740491N_1707509574_75_530.webp" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Ferrari 812</h2>
+        <p class="car-details">V12 6.5 GTS</p>
+        <p class="car-price">R$ 8.499.999</p>
+        <p class="car-location">2024/2024 • 12 km • Palmas - To</p>
+        <button class="buy-button" onclick="ferrari()">Comprar Agora</button>
+    </div>
+
+    <!-- Repita para os próximos 11 cards -->
+    <!-- Card 2 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://fotos.socarrao.com.br/1028427/6081608/6081608N_1722865415_93_770.webp" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Lamborghini Huracan</h2>
+        <p class="car-details">V10 5.2L</p>
+        <p class="car-price">R$ 4.299.000</p>
+        <p class="car-location">2024/2024 • 13 km • Palmas - To</p>
+        <button class="buy-button" onclick="huracan()">Comprar Agora</button>
+    </div>
+
+    <!-- Repita o mesmo padrão para os próximos cards até o 12º -->
+    <!-- Card 3 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://fotos.socarrao.com.br/100549309/5731025/5731025N_1725540354_82_200.webp" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Dodger Hellcat</h2>
+        <p class="car-details">V8 Supercharged Hemi 717 cv</p>
+        <p class="car-price">R$ 1.250.000</p>
+        <p class="car-location">2024/2024 • 18 km • Palmas - To</p>
+        <button class="buy-button" onclick="hellcat()">Comprar Agora</button>
+    </div>
+        <!-- Card 4-->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://fotos.socarrao.com.br/3197/6078520/6078520N_1726669546_35_940.webp" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Ford Mustang Mach 1</h2>
+        <p class="car-details">MACH 1 5.0 V8</p>
+        <p class="car-price">R$ 599.999</p>
+        <p class="car-location">2024/2024 • 5 km • Palmas - To</p>
+        <button class="buy-button" onclick="mustang()">Comprar Agora</button>
+    </div>
+    <!-- Continue até o 12º card -->
+        <!-- Card 5 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240812/maserati-mc20-3.0-v6-biturbo-gasolina-dct-wmimagem14453168328.jpg?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Maserati MC20</h2>
+        <p class="car-details">3.0 V6 BITURBO</p>
+        <p class="car-price">R$ 2.999.990</p>
+        <p class="car-location">2024/2024 • 25 km • Palmas - To</p>
+        <button class="buy-button" onclick="comprarLuxor()">Comprar Agora</button>
+    </div>
+    
+        <!-- Card 6 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243631632.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">BMW X5 </h2>
+        <p class="car-details">3.0 I6 TURBO HÍBRIDO</p>
+        <p class="car-price">R$ 730.000</p>
+        <p class="car-location">2024/2024 • 19 km • Palmas -To</p>
+        <button class="buy-button" onclick="bmwx5()">Comprar Agora</button>
+    </div>
+    
+        <!-- Card 7 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202409/20240923/porsche-panamera-2-9-v6-ehybrid-4-platinum-edition-pdk-wmimagem15225992329.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">PORSCHE Panamera </h2>
+        <p class="car-details">2.9 V6 E-HYBRID</p>
+        <p class="car-price">R$ 699.990</p>
+        <p class="car-location">2022/2022 • 25 km • Araguaina - To</p>
+        <button class="buy-button" onclick="panamera()">Comprar Agora</button>
+    </div>
+    
+        <!-- Card 8 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202409/20240919/audi-rs-q3-2-5-tfsi-sportback-quattro-gasolina-stronic-wmimagem13203078740.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">AUDI RS Q3</h2>
+        <p class="car-details">2.5 TFSI SPORTBACK</p>
+        <p class="car-price">R$ 459.990</p>
+        <p class="car-location">2021/2021 • 13.4 km • Palmas - To</p>
+        <button class="buy-button" onclick="rsq3()">Comprar Agora</button>
+    </div>
+    
+        <!-- Card 9 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://bocamafrapremium.com.br/wp-content/uploads/2024/09/7f055fdec7364c51b30354a65d5a24d9_1726074992069.jpg" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Tesla - Cybertruck</h2>
+        <p class="car-details">Elétrico CV: 600</p>
+        <p class="car-price">R$ 1.199.990</p>
+        <p class="car-location">2022/2022 • 10 km • Palmas - To</p>
+        <button class="buy-button" onclick="tesla()">Comprar Agora</button>
+    </div>
+    
+        <!-- Card 10 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://bocamafrapremium.com.br/wp-content/uploads/2024/08/7d6df11ad7eb4ef59386ad7f3fc0b63d_1705495601964.jpeg" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">Rolls Royce Ghost</h2>
+        <p class="car-details">36.7 Turbo 571CV</p>
+        <p class="car-price">R$ 5.999.990</p>
+        <p class="car-location">2022/2022 • 5 km • Palmas - To</p>
+        <button class="buy-button" onclick="rolls()">Comprar Agora</button>
+    </div>
+    
+        <!-- Card 11 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202407/20240718/porsche-911-3-8-24v-h6-gasolina-turbo-cabriolet-pdk-wmimagem12205549472.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">PORSCHE 911</h2>
+        <p class="car-details">3.8 24V H6</p>
+        <p class="car-price">R$ 1.699.000</p>
+        <p class="car-location">2024/2024 • 27 km • Palmas - To</p>
+        <button class="buy-button" onclick="pdk()">Comprar Agora</button>
+    </div>
+    <!-- Card 12 -->
+    <div class="car-card">
+        <div class="car-image">
+            <img src="https://bocamafrapremium.com.br/wp-content/uploads/2024/10/7089af4c745e4c908a6a0d9682489e3f_1730154775804.jpg" alt="Imagem do Carro">
+        </div>
+        <h2 class="car-name">L Huracan Performante</h2>
+        <p class="car-details">5.2 v10</p>
+        <p class="car-price">R$ 3.999.990</p>
+        <p class="car-location">2019/2019 • 31 km • Palmas - To</p>
+        <button class="buy-button" onclick="performante()">Comprar Agora</button>
+    </div>
+</div>
+
+<script>
+    // Obter o modal
+    var modal = document.getElementById("myModal");
+
+    // Obter o botão que abre o modal
+    var menuButton = document.getElementById("menuButton");
+
+    // Obter o elemento <span> que fecha o modal
+    var closeModal = document.getElementById("closeModal");
+
+    // Quando o usuário clica no botão, abre o modal
+    menuButton.onclick = function() {
+    console.log("Botão de menu clicado.");
+    modal.style.display = "async (params) => {
+        flex
+    }";
+};
+
+    // Quando o usuário clica em <span> (x), fecha o modal
+    closeModal.onclick = function() {
+        modal.style.display = "none"; // Oculta a modal
+    }
+
+    // Quando o usuário clica em qualquer lugar fora da modal, fecha-a
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none"; // Oculta a modal
+        }
+    }
+
+    // Script da sanfona
+    var acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+        acc[i].onclick = function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none"; // Oculta a seção se já estiver aberta
+                panel.style.maxHeight = null;
+panel.style.maxHeight = null; // Reseta a altura máxima para ocultar
+            } else {
+                panel.style.display = "block"; // Mostra a seção
+                panel.style.maxHeight = panel.scrollHeight + "px"; // Define a altura máxima com a altura real do conteúdo
+            } 
+        }
+    }
+    
+    function ferrari() {
+            window.location.href = "ferrari.html"; // Substitua pelo link da página de compra
+        }
+        
+        function huracan() {
+            window.location.href = "huracan.html"; // Substitua pelo link da página de compra
+        }
+
+        function hellcat() {
+            window.location.href = "hellcat.html"; // Substitua pelo link da página de compra
+        }
+
+        function mustang() {
+            window.location.href = "mustang.html"; // Substitua pelo link da página de compra
+        }
+
+        function comprarLuxor() {
+            window.location.href = "comprarLuxor.html"; // Substitua pelo link da página de compra
+        }
+
+        function bmwx5() {
+            window.location.href = "bmwx5.html"; // Substitua pelo link da página de compra
+        }
+
+        function panamera() {
+            window.location.href = "panamera.html"; // Substitua pelo link da página de compra
+        }
+
+        function rsq3() {
+            window.location.href = "rsq3.html"; // Substitua pelo link da página de compra
+        }
+
+        function tesla() {
+            window.location.href = "tesla.html"; // Substitua pelo link da página de compra
+        }
+
+        function rolls() {
+            window.location.href = "rolls.html"; // Substitua pelo link da página de compra
+        }
+
+        function performante() {
+            window.location.href = "performante.html"; // Substitua pelo link da página de compra
+        }
+
+        function pdk() {
+            window.location.href = "pdk.html"; // Substitua pelo link da página de compra
+        }
+</script>
+</body>
+</html>

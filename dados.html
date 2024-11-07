@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados Pessoais</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1c1c1c; /* Fundo do site em cinza escuro */
+            color: #fff; /* Cor do texto em branco */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333333; /* Cor do cabeçalho em cinza escuro */
+            width: 80%; /* Largura do cabeçalho (ajustável) */
+            margin: 0 auto; /* Centraliza o cabeçalho horizontalmente */
+            border-radius: 15px; /* Arredondamento das bordas do cabeçalho */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra opcional */
+            display: flex; /* Alinhamento flexível para o conteúdo do cabeçalho */
+            align-items: center; /* Centraliza verticalmente */
+            justify-content: space-between; /* Espaça os itens do cabeçalho */
+            padding: 10px; /* Espaçamento interno do cabeçalho */
+        }
+
+        .logo-button {
+            background: none; /* Remove o fundo do botão */
+            border: none; /* Remove a borda do botão */
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+        }
+
+        .logo-button img {
+            max-height: 60px; /* Ajusta a altura da logo */
+            width: auto; /* Mantém a proporção da imagem */
+            border-radius: 10px; /* Bordas arredondadas */
+        }
+
+        .header-buttons {
+            display: flex; /* Coloca os botões lado a lado */
+            gap: 15px; /* Espaçamento entre os botões */
+        }
+
+        .header-buttons a {
+            display: flex; /* Usar flexbox para o botão */
+            align-items: center; /* Alinha a imagem e texto */
+            text-decoration: none; /* Remove o sublinhado */
+            color: white; /* Cor do texto */
+            padding: 15px; /* Espaçamento interno */
+            border-radius: 5px; /* Bordas arredondadas */
+            background-color: ; /* Cor de fundo do botão */
+            transition: background-color 0.3s; /* Efeito de transição */
+        }
+
+        .header-buttons a:hover {
+            background-color: #555; /* Cor ao passar o mouse */
+        }
+
+        .header-buttons img {
+            width: 50px; /* Largura da imagem do botão */
+            height: 50px; /* Altura da imagem do botão */
+            margin-right: 5px; /* Espaçamento à direita da imagem */
+        }
+
+        /* Estilo para a janela modal */
+        .modal {
+            display: none; /* Oculta a modal por padrão */
+            position: fixed; /* Fica sobreposta à página */
+            z-index: 1; /* Fica na frente dos outros elementos */
+            left: 0;
+            top: 0;
+            width: 100%; /* Largura total da tela */
+            height: 100%; /* Altura total da tela */
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro com opacidade */
+            color: yellow; /* Cor do texto na modal */
+            display: flex; /* Usar flexbox para centralizar conteúdo */
+            justify-content: center; /* Centraliza o conteúdo */
+            align-items: center; /* Alinha verticalmente ao centro */
+        }
+
+        .modal-content {
+            background-color: #444; /* Cor de fundo da modal */
+            padding: 20px; /* Espaçamento interno da modal */
+            border-radius: 10px; /* Bordas arredondadas da modal */
+            width: 80%; /* Largura da modal */
+            max-width: 500px; /* Largura máxima da modal */
+            color: white; /* Cor do texto na modal */
+        }
+
+          .close {
+              color: white; /* Cor do botão de fechar */
+              float: right; /* Coloca o botão de fechar à direita */
+              font-size: 28px; /* Tamanho da fonte do botão de fechar */
+              font-weight: bold; /* Negrito */
+              cursor: pointer; /* Muda o cursor ao passar o mouse */
+          }
+
+        /* Estilos do painel da sanfona */
+        .accordion {
+            background-color: #d4af37; /* Amarelo queimado */
+            color: black; /* Cor do texto */
+            cursor: pointer; /* Cursor pointer */
+            text-align: center; /* Centraliza o texto */
+            padding: 15px; /* Preenchimento */
+            width: 100%; /* Largura total */
+            border: none; /* Sem borda */
+            border-radius: 5px; /* Bordas arredondadas */
+            text-align: center; /* Texto à esquerda */
+            outline: none; /* Sem contorno */
+            font-size: 15px; /* Tamanho da fonte */
+            transition: background-color 0.3s; /* Transição suave para a cor */
+           }
+
+        .accordion:hover {
+            background-color: #c59a2f; /* Amarelo queimado mais escuro ao passar o mouse */
+           }
+
+        .panel {
+            padding: 0 10px; /* Espaçamento interno da seção expandidas */
+            background-color: #d4af37; /* Amarelo queimado */
+            display: none; /* Oculta as seções por padrão */
+            overflow: hidden; /* Oculta o conteúdo que ultrapassa */
+            background-color: #444; /* Cor de fundo da seção expandida */
+            border-radius: 5px; /* Bordas arredondadas */
+            text-align: center; /* Centraliza o texto */
+            border-radius: 5px; /* Bordas arredondadas */
+            transition: max-height 0.3s ease-out; /* Animação suave */
+            max-height: 0; /* Altura máxima inicial */
+        }
+
+.panel a {
+    display: block; /* Exibe os links como blocos */
+    background-color: #d4af37; /* Amarelo queimado */
+    color: black; /* Cor do texto dos links */
+    text-decoration: none; /* Remove sublinhado dos links */
+    padding: 10px; /* Espaçamento interno */
+    margin: 5px auto; /* Centraliza os links e define o espaçamento entre eles */
+    border-radius: 5px; /* Bordas arredondadas */
+    width: 50%; /* Define a largura dos links */
+    text-align: center; /* Centraliza o texto dentro dos links */
+}
+
+        .panel a:hover {
+    background-color: #c59a2f; /* Amarelo queimado mais escuro ao passar o mouse */
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .form-box {
+            background-color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            width: 600px;
+        }
+
+        .form-box h2 {
+            color: #d4af37;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .form-box label {
+            display: block;
+            margin-bottom: 10px;
+            color: #e5e5e5;
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+            border: none;
+        }
+
+   /* Estilo atualizado */
+.form-box button {
+    width: 80%; /* O botão vai ocupar 80% da largura do contêiner */
+    padding: 12px;
+    background-color: #d4af37;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto; /* Cria uma distância de 10px entre os botões */
+}
+
+.form-box button:hover {
+    background-color: #b99328; /* Cor mais escura ao passar o mouse */
+}
+
+        .success-box {
+            background-color: #2e2e2e;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 20px;
+            background-color: #25D366;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1EBE57;
+        }
+        
+        .content {
+          flex: 1;
+        }
+
+        footer {
+    background-color: #2b2b2b;
+    padding: 20px 0;
+    text-align: center;
+    color: #d4af37;
+    position: relative;
+    width: 100%;
+}
+    </style>
+    <!-- SDK da Amazon S3 -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1086.0.min.js"></script>
+</head>
+<body>
+    <header>
+      <button class="logo-button" onclick="window.location.href='CarImpots.html'"> 
+        <img src="https://i.postimg.cc/zB6Y0HvR/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-122843-0000.png" alt="Logo da Loja" />
+    </button>
+    <div class="header-buttons">
+        <a href="chat.html"> <!-- Substitua pelo link da sua página de chat -->
+            <img src="https://i.postimg.cc/c1DGDjgN/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-125758-0000.png" alt="Chat">
+        </a>
+        <a href="#" id="menuButton"> <!-- ID para o botão de menu -->
+            <img src="https://i.postimg.cc/wB5SDb8Z/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-125906-0000.png" alt="Menu">
+        </a>
+    </div>
+
+    </header>
+        <!-- Janela Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Informações do Menu</h2>
+        
+        <button class="accordion">Serviços</button>
+        <div class="panel">
+            <a href="carros_usados.html">Carros Usados</a>
+            <a href="carros_novos.html">Carros Novos</a>
+            <a href="dados.html">Login</a>
+            <a href="chat.html">Suporte</a>
+            <a href="ajuda.html">Ajuda</a>
+        </div>
+        
+        <!-- Você pode adicionar mais seções de sanfona aqui -->
+    </div>
+</div>
+    <div class="form-container">
+        <div class="form-box">
+            <h2>Dados Pessoais</h2>
+            <form id="personalInfoForm">
+                <label for="fullName">Nome Completo</label>
+                <input type="text" id="fullName" placeholder="Digite seu nome completo" required>
+
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" required>
+
+                <label for="phone">Telefone</label>
+                <input type="tel" id="phone" placeholder="Digite seu telefone" required>
+
+                <label for="address">Endereço</label>
+                <input type="text" id="address" placeholder="Digite seu endereço" required>
+                
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Crie sua senha" required>
+
+                <button type="submit">Salvar Dados</button>
+            </form>
+
+            <div class="success-box" id="successMessage">
+                <p>Dados salvos com sucesso!</p>
+                <a href="#" id="whatsappLink" class="whatsapp-button">Enviar Mensagem</a>
+            </div>
+                 <!-- Botão de Login -->
+                <button type="button" id="login">Login</button>
+            </form>
+        </div>
+    </div>
+    <div class="content">
+    <!-- Seu conteúdo aqui -->
+</div>
+<footer>
+  <p>&copy; 2024 Carros de Luxo Imports®. Todos os direitos reservados.</p>
+</footer>
+
+    <script>
+      
+      // Obter o modal
+    var modal = document.getElementById("myModal");
+
+    // Obter o botão que abre o modal
+    var menuButton = document.getElementById("menuButton");
+
+    // Obter o elemento <span> que fecha o modal
+    var closeModal = document.getElementById("closeModal");
+
+    // Quando o usuário clica no botão, abre o modal
+    menuButton.onclick = function() {
+        modal.style.display = "flex"; // Mostra a modal
+    }
+
+    // Quando o usuário clica em <span> (x), fecha o modal
+    closeModal.onclick = function() {
+        modal.style.display = "none"; // Oculta a modal
+    }
+
+    // Quando o usuário clica em qualquer lugar fora da modal, fecha-a
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none"; // Oculta a modal
+        }
+    }
+
+    // Script da sanfona
+    var acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+        acc[i].onclick = function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none"; // Oculta a seção se já estiver aberta
+                panel.style.maxHeight = null;
+panel.style.maxHeight = null; // Reseta a altura máxima para ocultar
+            } else {
+                panel.style.display = "block"; // Mostra a seção
+                panel.style.maxHeight = panel.scrollHeight + "px"; // Define a altura máxima com a altura real do conteúdo
+            } 
+        }
+    }
+
+        // Configuração da AWS S3
+        AWS.config.update({
+            accessKeyId: 'AKIAXWHDMD3PPEXLK6FZ', // Substitua pelo seu access key id
+            secretAccessKey: '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', // Substitua pelo seu secret access key
+            region: 'us-east-1' // Exemplo: 'us-east-1'
+        });
+
+        const s3 = new AWS.S3({ params: { Bucket: 'SEU_BUCKET_NAME' } }); // Substitua pelo nome do bucket
+
+        // Função de upload para S3
+        function uploadToS3(data) {
+            const params = {
+                Key: `usuarios/${Date.now()}_dados.json`, // Nome do arquivo no S3
+                Body: JSON.stringify(data),
+                ContentType: 'application/json'
+            };
+
+            s3.upload(params, function(err, data) {
+                if (err) {
+                    console.log('Erro ao enviar para o S3:', err);
+                } else {
+                    console.log('Dados enviados com sucesso:', data.Location);
+                }
+            });
+        }
+
+        document.getElementById('personalInfoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const password = document.getElementById('password').value;
+
+            const personalInfo = {
+                fullName,
+                email,
+                phone,
+                address,
+                password
+            };
+
+            // Salva no S3
+            uploadToS3(personalInfo);
+
+            // Exibe a caixa de sucesso
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+
+            // Cria o link de WhatsApp com o número e mensagem
+            const whatsappNumber = '63992391400'; // Número correto do WhatsApp
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=Olá, Gostaria de continuar o processo de compra.`;
+            document.getElementById('whatsappLink').href = whatsappLink;
+
+            alert('Dados salvos com sucesso!');
+        });
+        
+         // Redireciona para a página de login ao clicar no botão
+        document.getElementById('login').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
