@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Carro</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1c1c1c; /* Fundo do site em cinza escuro */
+            color: #fff; /* Cor do texto em branco */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+       header {
+            background-color: #333333;
+            width: 80%;
+            margin: 0 auto; /* Centraliza o header horizontalmente */
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between; /* Alinha o conteúdo internamente */
+            align-items: center; /* Centraliza verticalmente */
+            padding: 10px;
+        }
+
+        .logo-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .logo-button img {
+            max-height: 60px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-buttons a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: ;
+            transition: background-color 0.3s;
+        }
+
+        .header-buttons a:hover {
+            background-color: #555;
+        }
+
+        .header-buttons img {
+            width: 50px;
+            height: 50px;
+            margin-right: 5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: yellow;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            color: white;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .accordion {
+            background-color: #d4af37;
+            color: black;
+            cursor: pointer;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            font-size: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .accordion:hover {
+            background-color: #c59a2f;
+        }
+
+        .panel {
+            padding: 0 10px;
+            background-color: #444;
+            display: none;
+            overflow: hidden;
+            border-radius: 5px;
+            text-align: center;
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+        }
+
+        .panel a {
+            display: block;
+            background-color: #d4af37;
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px auto;
+            border-radius: 5px;
+            width: 50%;
+            text-align: center;
+        }
+
+        .panel a:hover {
+            background-color: #c59a2f;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .car-details {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 30px;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        .car-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .car-gallery img {
+            width: 200px;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .car-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .car-details p {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #e5e5e5;
+        }
+
+        .car-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .car-specs .spec-item {
+            flex: 1 1 45%;
+            background-color: #444;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .car-specs .spec-item h3 {
+            color: #d4af37;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .car-specs .spec-item p {
+            font-size: 16px;
+            color: #e5e5e5;
+        }
+
+        .buyCar {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #d4af37;
+            color: #000;
+            text-transform: uppercase;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .buyCar:hover {
+            background-color: #b99328;
+        }
+
+        footer {
+            background-color: #2b2b2b;
+            padding: 20px 0;
+            text-align: center;
+            color: #d4af37;
+            margin-top: 50px;
+        }
+
+        .video-container {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 1000px;
+            background-color: #1c1c1c;
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+         <button class="logo-button" onclick="window.location.href='CarImpots.html'"> 
+        <img src="https://i.postimg.cc/zB6Y0HvR/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-122843-0000.png" alt="Logo da Loja" />
+    </button>
+    <div class="header-buttons">
+        <a href="chat.html"> <!-- Substitua pelo link da sua página de chat -->
+            <img src="https://i.postimg.cc/c1DGDjgN/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-125758-0000.png" alt="Chat">
+        </a>
+        <a href="#" id="menuButton"> <!-- ID para o botão de menu -->
+            <img src="https://i.postimg.cc/wB5SDb8Z/Orange-and-Gray-Tag-Cart-Virtual-Shop-Logo-20241012-125906-0000.png" alt="Menu">
+        </a>
+    </div>
+        
+        
+    </header>
+    <!-- Janela Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Informações do Menu</h2>
+        
+        <button class="accordion">Comprar Carros</button>
+        <div class="panel">
+            <a href="carros_usados.html">Carros Usados</a>
+            <a href="carros_novos.html">Carros Novos</a>
+            <a href="servicos.html">Serviço</a>
+            <a href="suporte.html">Suporte</a>
+            <a href="ajuda.html">Ajuda</a>
+        </div>
+        
+        <!-- Você pode adicionar mais seções de sanfona aqui -->
+    </div>
+</div>
+
+    <div class="container">
+        <div class="car-details">
+            <!-- Galeria de imagens -->
+            <div class="car-gallery">
+                <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243842331.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do carro 1" onclick="trocarImagem('https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243842331.webp?s=fill&amp;w=480&amp;h=360&amp;q=75')">
+                <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243817392.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do carro 2" onclick="trocarImagem('https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243817392.webp?s=fill&amp;w=480&amp;h=360&amp;q=75')">
+                <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243896990.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do carro 3" onclick="trocarImagem('https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243896990.webp?s=fill&amp;w=480&amp;h=360&amp;q=75')">
+                <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243667136.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem do carro 4" onclick="trocarImagem('https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243667136.webp?s=fill&amp;w=480&amp;h=360&amp;q=75')">
+            </div>
+            <!-- Imagem principal -->
+            <img id="mainImage" class="main-image" src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2024/202408/20240828/bmw-x5-3-0-i6-turbo-hibrido-xdrive50e-m-sport-automatico-wmimagem12243631632.webp?s=fill&amp;w=480&amp;h=360&amp;q=75" alt="Imagem principal do carro">
+
+            <!-- Descrição e especificações do carro -->
+            <h2>BMW X5
+3.0 I6 TURBO HÍBRIDO XDRIVE50E M SPORT AUTOMÁTICO - 2024</h2>
+            <div class="car-specs">
+                <div class="spec-item">
+                    <h3>Motor</h3>
+                    <p>3.0 I6 TURBO HÍBRIDO XDRIVE50E M SPORT</p>
+                </div>
+                <div class="spec-item">
+                    <h3>Transmissão</h3>
+                    <p>Automatico</p>
+                </div>
+                <div class="spec-item">
+                    <h3>Aceleração</h3>
+                    <p>0 a 100 em 5,6 seg</p>
+                </div>
+                <div class="spec-item">
+                    <h3>Preço</h3>
+                    <p>R$ 730.000,00</p>
+                </div>
+                <div class="spec-item">
+                    <h3>Cor</h3>
+                    <p>Branco</p>
+                </div>
+                <div class="spec-item">
+                    <h3>Potência</h3>
+                    <p>Potência (cv/rpm)
+489/5000</p>
+                </div>
+            </div>
+            <p>Potência, Eficiência e Luxo
+
+O BMW X5 xDrive50e M Sport combina a elegância e a força de um SUV de luxo com a eficiência de um motor híbrido. Equipado com um motor 3.0 I6 Turbo e um sistema híbrido plug-in, este modelo oferece impressionantes 489 cv e acelera de 0 a 100 km/h em apenas 4,8 segundos. A tração integral inteligente xDrive garante estabilidade e desempenho superior em qualquer terreno.
+
+Com o acabamento M Sport, o X5 exala esportividade em cada detalhe, desde o design exterior aerodinâmico até o interior luxuoso, com materiais de alta qualidade e tecnologia de ponta. O sistema multimídia com conectividade completa, o painel digital e os assistentes de direção proporcionam uma experiência premium de condução, aliando conforto e segurança.
+
+Se você procura um SUV robusto, eficiente e repleto de sofisticação, o BMW X5 xDrive50e M Sport é a escolha ideal. Tenha a performance de um esportivo com a eficiência de um híbrido!
+            </p>
+
+            <!-- Botão de compra -->
+            <button class="buyCar" onclick="buyCar()">Comprar Agora</button>
+
+<script>
+    // Obter o modal
+    var modal = document.getElementById("myModal");
+
+    // Obter o botão que abre o modal
+    var menuButton = document.getElementById("menuButton");
+
+    // Obter o elemento <span> que fecha o modal
+    var closeModal = document.getElementById("closeModal");
+
+    // Função para abrir o modal apenas quando o usuário clicar no botão
+    function openModal() {
+        modal.style.display = "flex"; // Mostra a modal
+    }
+
+    // Quando o usuário clica no botão, abre o modal
+    menuButton.addEventListener('click', openModal);
+
+    // Quando o usuário clica em <span> (x), fecha o modal
+    closeModal.addEventListener('click', function() {
+        modal.style.display = "none"; // Oculta a modal
+    });
+
+    // Quando o usuário clica em qualquer lugar fora da modal, fecha-a
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none"; // Oculta a modal
+        }
+    });
+
+    // Script da sanfona
+    var acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+        acc[i].onclick = function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none"; // Oculta a seção se já estiver aberta
+                panel.style.maxHeight = null; // Reseta a altura máxima para ocultar
+            } else {
+                panel.style.display = "block"; // Mostra a seção
+                panel.style.maxHeight = panel.scrollHeight + "px"; // Define a altura máxima com a altura real do conteúdo
+            } 
+        }
+    }
+
+    // Função para redirecionar para a página 'dados.html'
+    function buyCar() {
+        window.location.href = 'dados.html';
+    }
+
+    // Função para trocar a imagem principal ao clicar nas miniaturas
+    function trocarImagem(src) {
+        document.getElementById('mainImage').src = src;
+    }
+</script>
+        </div>
+
+        <!-- Caixa de vídeo -->
+        <div class="video-container">
+            <iframe src="https://youtube.com/embed/FdKBcBGurEs/" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Carros de Luxo Imports®. Todos os direitos reservados.</p>
+    </footer>
+
+    <style>
+        .car-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .car-gallery img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 350px;
+        }
+
+        @media (max-width: 768px) {
+            .car-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .video-container iframe {
+                height: 350px; /* Ajusta a altura do vídeo em dispositivos móveis */
+            }
+        }
+    </style>
+</body>
+
+</html>
