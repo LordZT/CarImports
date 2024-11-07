@@ -432,32 +432,20 @@
 </div>
 
 <script>
-    // Obter o modal
-    var modal = document.getElementById("myModal");
-
-    // Obter o botão que abre o modal
-    var menuButton = document.getElementById("menuButton");
-
-    // Obter o elemento <span> que fecha o modal
-    var closeModal = document.getElementById("closeModal");
-
-    // Quando o usuário clica no botão, abre o modal
-    menuButton.onclick = function() {
-    console.log("Botão de menu clicado.");
-    modal.style.display = "async (params) => {
-        flex
-    }";
-};
-
-    // Quando o usuário clica em <span> (x), fecha o modal
-    closeModal.onclick = function() {
-        modal.style.display = "none"; // Oculta a modal
+    // Abre a modal
+    document.getElementById('menuButton').onclick = function() {
+        document.getElementById('myModal').style.display = 'flex';
     }
 
-    // Quando o usuário clica em qualquer lugar fora da modal, fecha-a
+    // Fecha a modal
+    document.getElementById('closeModal').onclick = function() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Fecha a modal se clicar fora dela
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none"; // Oculta a modal
+        if (event.target == document.getElementById('myModal')) {
+            document.getElementById('myModal').style.display = 'none';
         }
     }
 
